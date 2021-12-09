@@ -1,6 +1,6 @@
 img ="";
 
-function preLoad(){
+function preload(){
 img = loadImage('dog_cat.jpg');
 }
 
