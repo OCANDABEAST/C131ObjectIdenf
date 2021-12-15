@@ -6,7 +6,7 @@ width: 100%;
 margin: 0px;
 }
 
-#status
+#status, a
 {
 font-size: 18px;
 }
@@ -15,7 +15,7 @@ body
 background-size: cover;
 background-position: center;
 }
-canvas
+canvas, a
 {
 box-shadow: 10px 10px 10px #c723d9;
 border-radius: 10px;
