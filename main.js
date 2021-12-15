@@ -2,7 +2,6 @@ img ="";
 status = "";
 objects = [];
 
-
 function setup() {
 canvas = createCanvas(640, 420);
 canvas.center();
@@ -15,7 +14,7 @@ image(img, 0, 0, 640, 420);
 
 if (status != "")
 {
-for (var i = 0; i < objects.lenght; i++) {
+for (var i = 0; i < objects.length; i++) {
 document.getElementById("status").innerHTML = "status : Object Detected";
 fill("#10e7eb");
 console.log("Object Detected");
