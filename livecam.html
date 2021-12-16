@@ -1,0 +1,92 @@
+<html>
+<head>
+
+	<title>Object Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body background="background.jpg"></body>
+  <center>
+    <h1 class="btn btn-info heading"></h1>Object Detection</h1>
+
+    <h3 id="status" class="btn btn-danger"></h3>
+    <h3 id="number_of_objects" class="btn btn-warning"></h3>
+  </center>
+
+  <a href="index.html" id="BACK" class="btn ">BACK</a>
+
+<script>
+video ="";
+status = "";
+objects = [];
+
+function setup() {
+canvas = createCanvas(640, 420);
+canvas.center();
+video = createCapture(VIDEO);
+video.size(380, 380);
+video.hide();
+objectDetector = ml5.objectDetector('cocossd', modelLoaded);
+document.getElementById("status").innerHTML = "Status Detecting Object"; 
+}
+
+function draw() {
+image(video, 0, 0, 640, 420);
+
+if (status != "")
+{
+r = random(255);
+g = random(255);
+b = random(225);
+objectDetector.detect(video, gotResult);
+for (var i = 0; i < objects.length; i++) {
+document.getElementById("status").innerHTML = "status : Object Detected";
+document.getElementById("number_of_objects").innerHTML = "Number of objects detected are :" + objects.length;
+fill(r,g,b);
+console.log("Object Detected");
+percent = floor(objects[i].confidence * 100);
+text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 15);
+noFill();
+stroke(r,g,b);
+rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+}
+}
+/* fill("#10e7eb")
+text("Dog", 45, 75);
+noFill();
+stroke("#ff0000")
+rect(30, 60, 450, 350 );
+
+fill("#000000")
+text("Cat", 320, 120);
+noFill();
+stroke("#000000");
+rect(300, 90, 270, 320 ); */
+}
+
+function modelLoaded() {
+console.log("Model Loaded!")
+status = true;
+}
+
+function gotResult(error, results) {
+if (error) {
+console.log(error);
+}
+console.log(results);
+objects = results;
+}
+
+
+</script>
+</body>
+</html>
