@@ -16,8 +16,8 @@
 
 <body background="background.jpg"></body>
   <center>
-    <h1 class="btn btn-info heading"></h1>Object Detection</h1>
-
+    <h1 onclick="start()" class="btn btn-info heading">Object Detection</h1>
+<br>
     <h3 id="status" class="btn btn-danger"></h3>
     <h3 id="number_of_objects" class="btn btn-warning"></h3>
     <input type="text" class="form-control" id="object_name">
@@ -36,8 +36,11 @@ canvas.center();
 video = createCapture(VIDEO);
 video.size(380, 380);
 video.hide();
+}
+function start() {
 objectDetector = ml5.objectDetector('cocossd', modelLoaded);
 document.getElementById("status").innerHTML = "Status Detecting Object"; 
+object_name = document.getElementById("object_name").value;
 }
 
 function draw() {
@@ -59,6 +62,18 @@ text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 1
 noFill();
 stroke(r,g,b);
 rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+if (objects[i].label == object_name)
+{
+video.stop();
+objectDetector.detect(gotResult);
+document.getElementById("object_status").innerHTML = object_name + " Found";
+synth = window.speechSynthesis;
+utterthis = new SpeechSynthesisUtterance(object_name + "found");
+synth.speak(utterThis);
+}
+else{
+document.getElementById("object_status").innerHTML = object_name + "Not Found";
+}
 }
 }
 /* fill("#10e7eb")
